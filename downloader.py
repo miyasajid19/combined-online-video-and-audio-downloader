@@ -16,7 +16,6 @@ def download1():
             main()
         except Exception as p:
             messagebox.showerror("error", p)
-
 def go1():
     global url, quality, ydl_opts
     ydl_opts = {
@@ -28,7 +27,6 @@ def go1():
     frame1=Frame(root,bg=b)
     frame1.pack()
     Label(frame1, text="QUALITY :", bg=b, font="Stencil 20 bold", fg="#FFF3C7").grid(row=0, column=0)
-
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=False)
         formats = info_dict.get("formats", None)
@@ -39,20 +37,18 @@ def go1():
                 options.append(f"{f['format_id']}: {f['ext']} ({f.get('format_note', 'Audio')})")
         quality=StringVar()
         quality.set("choose")
-        OptionMenu(frame1, quality, *options).grid(row=1, column=1,padx=3,pady=3)
+        OptionMenu(frame1, quality, *options).grid(row=0, column=1,padx=3,pady=3)
         img=Image.open("360_F_535240482_E2FCPJa9Pw914WrvkV6ipzPjpJVSCBSW.jpg").resize((200,60))
         img=ImageTk.PhotoImage(img)
         btn=Button(frame1,image=img,command=download1)
         btn.image=img
-        btn.grid(row=1,column=0,columnspan=5,padx=3,pady=3)
-
+        btn.grid(row=2,column=0,columnspan=5,padx=3,pady=3)
 def download():
     resolution_choice = quality.get()
     print(resolution_choice)
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=False)
         formats = info_dict.get("formats", None)
-    
     try:
         # Download the video
         ydl.download([url])
@@ -64,15 +60,12 @@ def download():
         main()
     except Exception as p:
         messagebox.showerror("error",p)
-
 def go():
     global url,quality,ydl_opts
     ydl_opts = {
         "outtmpl": "%(title)s.%(ext)s",  # Output filename template
     }
     url=url.get()
-    
-    
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(url, download=False)
         formats = info_dict.get("formats", None)
@@ -115,13 +108,10 @@ def main():
     btn=Button(frame1,image=img,command=go)
     btn.image=img
     btn.grid(row=2,column=0,columnspan=5,padx=3,pady=3)
-    
     img=Image.open("images.png").resize((200,60))
     img=ImageTk.PhotoImage(img)
-    btn=Button(frame1,image=img,command=go)
+    btn=Button(frame1,image=img,command=go1)
     btn.image=img
-    
     btn.grid(row=3,column=0,columnspan=5,padx=3,pady=3)
-    
 main()
 root.mainloop()   
